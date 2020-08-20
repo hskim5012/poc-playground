@@ -1,0 +1,25 @@
+platform: linux
+image_resource:
+  type: docker-image
+  source: { repository: registry.mckesson.com/er2niot/java-be, tag: latest }
+inputs:
+  - name: source-code
+outputs:
+  - name: cloud-foundry
+run:
+  path: /bin/bash
+  args:
+    - -exc
+    - |
+      wget http://mirror.cogentco.com/pub/apache/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz
+      ls
+      tar xvf apache-maven-3.6.3-bin.tar.gz
+      export M2_HOME=$(pwd)/apache-maven-3.6.3
+      export M2=$M2_HOME/bin
+      export PATH=$M2:$PATH
+      cd source-code/demo
+      mvn clean install -Pqa
+      #java -jar -Dspring.profiles.active=dev target/demo-0.0.1-SNAPSHOT.jar
+      cp -R ./CI ../../cloud-foundry
+      cp ./target/demo-0.0.1-SNAPSHOT.jar ../../cloud-foundry
+      cp ./pom.xml ../../cloud-foundry

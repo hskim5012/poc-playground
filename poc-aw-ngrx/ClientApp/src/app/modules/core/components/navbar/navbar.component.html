@@ -1,0 +1,49 @@
+<mat-card class="page-container">
+  <img src="../assets/providerpay-logo.png" alt="ProviderPay Logo" />
+  <mat-toolbar *ngIf="isReconEnabled" color="primary">
+    <button mat-button [routerLink]="['/providerpay/data-management']">
+      Data Management
+    </button>
+    <button mat-button>Account Summary</button>
+    <button mat-button [routerLink]="['/providerpay/funds']">
+      Funds Transfer
+    </button>
+    <mat-menu #fundsTransferMenu="matMenu">
+      <button mat-menu-item>Create Transfer</button>
+      <button mat-menu-item>Administrator</button>
+      <button mat-menu-item>Recurring Transfer</button>
+    </mat-menu>
+    <button mat-button [routerLink] = "['/providerpay/manage-users']">Manage Users</button>
+    <button
+      mat-button
+      [routerLink]="['/accesshealth/voStatementScreen.do']"
+      [queryParams]="{ smoSessionId: this.auth.getSessionId() }"
+    >
+      Central Pay
+    </button>
+    <button
+      mat-button
+      [matMenuTriggerFor]="settingsMenu"
+      #settingsMenuTrigger="matMenuTrigger"
+    >
+      Settings
+    </button>
+    <mat-menu #settingsMenu="matMenu">
+      <button [routerLink]="['/providerpay/change-password']" mat-menu-item>
+        Change Password
+      </button>
+      <button mat-menu-item [routerLink]="['providerpay/preferences']">
+        Preferences
+      </button>
+    </mat-menu>
+  </mat-toolbar>
+  <mat-toolbar class="divider-toolbar"> </mat-toolbar>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="body-content">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</mat-card>

@@ -1,0 +1,38 @@
+<span *ngIf="headerMessage.length > 0">{{ headerMessage }}</span>
+
+<h3>
+  Current Users
+</h3>
+
+<button (click)="create()">
+  Create New Users
+</button>
+
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th>User Name</th>
+      <th>Date Created</th>
+      <th>Last System Access</th>
+      <th>Date Deactivated</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of users">
+      <td>
+        <button (click)="edit(user)">Edit</button>
+        <ng-container *ngIf="user.dateTerminated; else active">
+          <button (click)="activate(user)">Activate</button>
+        </ng-container>
+        <ng-template #active>
+          <button (click)="terminate(user)">Terminate</button>
+        </ng-template>
+      </td>
+      <td>{{ user.userName }}</td>
+      <td>{{ user.dateActivated | slice: 0:10 | date: dateFormat }}</td>
+      <td>{{ user.lastAccessed | slice: 0:10 | date: dateFormat }}</td>
+      <td>{{ user.dateTerminated | slice: 0:10 | date: dateFormat }}</td>
+    </tr>
+  </tbody>
+</table>

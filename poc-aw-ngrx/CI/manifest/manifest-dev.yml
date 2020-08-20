@@ -1,0 +1,6 @@
+---
+applications:
+- name: atlas-web-dev
+  buildpacks: 
+    - https://github.com/cloudfoundry/nodejs-buildpack
+  stack: cflinuxfs3

@@ -1,0 +1,159 @@
+<h3>
+  {{ formActionHeader }}
+</h3>
+
+<form
+  #form="ngForm"
+  (ngSubmit)="onSubmit()"
+  [class.is-invalid]="form.submitted"
+  [matchValue]="['email', 'confirmEmail']"
+>
+  <div>
+    <label for="name">
+      Name
+    </label>
+    <div
+      class="form-group"
+      [class.is-invalid]="nameControl.invalid && nameControl.touched"
+    >
+      <input
+        id="name"
+        name="name"
+        type="text"
+        #nameControl="ngModel"
+        [(ngModel)]="user.userName"
+        required
+        [class.field-error]="form.submitted && nameControl.invalid"
+      />
+    </div>
+    <span
+      [hidden]="!form.submitted || nameControl.valid"
+      class="alert alert-danger"
+      *ngIf="nameControl.invalid && nameControl.touched"
+    >
+      Name is required
+    </span>
+  </div>
+
+  <div>
+    <label for="username">
+      Username
+    </label>
+    <div
+      class="form-group"
+      [class.is-invalid]="userNameControl.invalid && userNameControl.touched"
+    >
+      <input
+        id="username"
+        type="text"
+        name="username"
+        #userNameControl="ngModel"
+        [(ngModel)]="user.userLoginId"
+        maxlength="10"
+        required
+        [class.field-error]="form.submitted && nameControl.invalid"
+      />
+    </div>
+    <span
+      [hidden]="!form.submitted || userNameControl.valid"
+      class="alert alert-danger"
+      *ngIf="userNameControl.invalid && userNameControl.touched"
+    >
+      Username is required
+    </span>
+  </div>
+
+  <div>
+    <label for="password">
+      Password
+    </label>
+    <div
+      class="form-group"
+      [class.is-invalid]="passControl.invalid && passControl.touched"
+    >
+      <input
+        id="password"
+        type="password"
+        name="password"
+        #passControl="ngModel"
+        [(ngModel)]="user.tempPassword"
+        minlength="6"
+        maxlength="30"
+        required
+        [class.field-error]="form.submitted && passControl.invalid"
+      />
+    </div>
+    <span
+      [hidden]="!form.submitted || passControl.valid"
+      class="alert alert-danger"
+      *ngIf="passControl.invalid && passControl.touched"
+    >
+      Password is required
+    </span>
+  </div>
+
+  <div>
+    <label for="email">
+      Email Address
+    </label>
+    <div
+      class="form-group"
+      [class.is-invalid]="emailControl.invalid && emailControl.touched"
+    >
+      <input
+        id="email"
+        type="email"
+        name="email"
+        #emailControl="ngModel"
+        [(ngModel)]="user.emailAddress"
+        required
+        [class.field-error]="form.submitted && passControl.invalid"
+      />
+    </div>
+    <span
+      [hidden]="!form.submitted || emailControl.valid"
+      class="alert alert-danger"
+      *ngIf="emailControl.invalid && emailControl.touched"
+    >
+      Email Address is required
+    </span>
+  </div>
+
+  <div>
+    <label for="confirmEmail">
+      Confirm Email Address
+    </label>
+    <div
+      class="form-group"
+      [class.is-invalid]="
+        confirmEmailControl.invalid && confirmEmailControl.touched
+      "
+    >
+      <input
+        id="confirmEmail"
+        type="email"
+        name="confirmEmail"
+        #confirmEmailControl="ngModel"
+        [(ngModel)]="user.confirmEmail"
+        required
+        [class.field-error]="form.submitted && confirmEmailControl.invalid"
+      />
+    </div>
+    <div
+      [hidden]="!form.submitted || confirmEmailControl.valid"
+      class="alert alert-danger"
+      *ngIf="confirmEmailControl.invalid && confirmEmailControl.touched"
+    >
+      <span *ngIf="confirmEmailControl.errors.required"
+        >Confirm Email address is required</span
+      >
+      <span *ngIf="confirmEmailControl.errors.matchValueError"
+        >Confirm email address & email address must be identical.</span
+      >
+    </div>
+  </div>
+
+  <button class="button" type="submit">{{ formActionButton }}</button>
+  <!-- Redirects to Mange Users Page -->
+  <button class="button" (click)="cancel()">Cancel</button>
+</form>

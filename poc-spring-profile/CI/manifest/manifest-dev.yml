@@ -1,0 +1,8 @@
+---
+applications:
+  - name: poc-dual-configs
+    path: ../../../install-results/demo-0.0.1-SNAPSHOT.jar
+    buildpacks:
+      - https://github.com/cloudfoundry/java-buildpack.git
+    stack: cflinuxfs3
+    timeout: 60

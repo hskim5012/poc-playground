@@ -1,0 +1,78 @@
+---
+resources:
+- name: source-code
+  type: git
+  source:
+    uri: https://bitbucket.mckesson.com:8443/scm/phrahopst/atlasweb.git
+    branch: master
+    username: ((bitbucket-user))
+    password: ((bitbucket-pass))
+- name: cloud-foundry
+  type: cf
+  source:
+    api: https://api.sys.prod-west.paas.mckesson.com
+    username: ((prod-pcf-user))
+    password: ((prod-pcf-pass))
+    organization: Pharma-AccessHealth-PHI
+    space: prod
+    skip_cert_check: true
+#                                 
+jobs:
+- name: build-and-deploy
+  public: true
+  plan:
+ 
+  - get: source-code
+    trigger: true
+  - task: express-dependency-install
+    config: 
+      platform: linux
+      image_resource:
+         type: docker-image
+         source: {repository: registry.mckesson.com/er2niot/node, tag: latest}
+      inputs:
+      - name: source-code
+      outputs:
+      - name: install-results
+      - name: cloud-foundry
+      run:
+        path: /bin/bash
+        args:
+        - -exc
+        - | 
+          cd source-code/Express
+          npm install --save
+          npm run build
+          
+          cd ../ClientApp
+          npm install --save
+          ## npm i --save-dev karma-phantomjs-launcher
+          npm run build:prod
+          ## npm run test
+          mkdir ../../cloud-foundry/ClientApp
+          mkdir ../../cloud-foundry/Express
+          cp -R dist/ ../../cloud-foundry/ClientApp
+          cp package.json ../../cloud-foundry/ClientApp
+          ##cp -R node_modules/ ../../cloud-foundry/ClientApp
+          cd ../Express
+          cp -R dist/ ../../cloud-foundry/Express
+          cp package.json ../../cloud-foundry/Express
+          cp -R node_modules/ ../../cloud-foundry/Express
+          cp ../CI/manifest/manifest-stg.yml ../../cloud-foundry
+          cp ../package.json ../../cloud-foundry/
+  - put: cloud-foundry
+    params:
+     manifest: cloud-foundry/manifest-stg.yml
+     path: cloud-foundry
+     environment_variables:
+       AUTH_ENDPOINT: ((auth-endpoint-stg))
+       GATEWAY_ENDPOINT: ((gateway-endpoint-stg))
+       GATEWAY_ENDPOINT_EXT: ((gateway-endpoint-stg))
+       API_CONSUMER_USER: ((auth-user-stg))
+       API_CONSUMER_PASS: ((auth-pass-stg))
+       AZURE_STORAGE_CONNECTION_STRING: ((atlas-api-azure-storage-connection-string))
+       POLLING_TIMEOUT : ((atlas-web-polling))
+       JWT_SECRET: ((atlas-api-jwt-secret))
+       CP_FF_SEARCH_ENABLED: ((ahd-930))
+       CP_FF_PDF_RPT_ENABLED: ((ahd-919))
+       PP_FF_NAVBAR_ENABLED: ((recon-309))

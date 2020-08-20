@@ -1,0 +1,8 @@
+.card-button {
+  display: flex;
+  flex-direction: column;
+}
+
+.icon {
+  vertical-align: baseline;
+}

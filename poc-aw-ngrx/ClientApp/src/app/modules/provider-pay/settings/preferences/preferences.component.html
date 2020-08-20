@@ -1,0 +1,335 @@
+<div class="container">
+  <div class="card-body">
+    <form novalidate (ngSubmit)="savePreferences()" [formGroup]="preferenceForm" *ngIf="preference">
+      <!-- Main Address Box -->
+      <div formGroupName="streetAddress">
+        <h2>Street Address</h2>
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label" for="street1Id">Street Address 1</label>
+          <div class="col-md-8">
+            <input class="form-control" id="street1Id" type="text" placeholder="Street address"
+              formControlName="street1" [ngClass]="{
+                'is-invalid':
+                  (preferenceForm.get('streetAddress.street1').touched ||
+                    preferenceForm.get('streetAddress.street1').dirty) &&
+                  !preferenceForm.get('streetAddress.street1').valid
+              }" />
+            <span class="invalid-feedback alert-danger">
+              <span *ngIf="
+                  preferenceForm.get('streetAddress.street1').errors?.required
+                ">
+                Street is required.
+              </span>
+              <span *ngIf="
+                  preferenceForm.get('streetAddress.street1').errors?.maxlength
+                ">
+                Up to 90 characters.
+              </span>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label" for="street2Id">Street Address 2</label>
+          <div class="col-md-8">
+            <input class="form-control" id="'street2Id" type="text" placeholder="Street address (second line)"
+              formControlName="street2" />
+            <span class="invalid-feedback alert-danger">
+              <span *ngIf="
+                  preferenceForm.get('streetAddress.street2').errors?.maxlength
+                ">
+                Up to 30 characters.
+              </span>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label" for="cityId">City, State, Zip Code</label>
+          <div class="col-md-3">
+            <input class="form-control" id="cityId" type="text" placeholder="City" formControlName="city" />
+            <span class="invalid-feedback alert-danger">
+              <span *ngIf="
+                  preferenceForm.get('streetAddress.city').errors?.required
+                ">
+                city is required.
+              </span>
+              <span *ngIf="
+                  preferenceForm.get('streetAddress.city').errors?.maxlength
+                ">
+                Up to 22 characters.
+              </span>
+            </span>
+          </div>
+          <div class="col-md-3">
+            <select class="form-control" id="stateId" formControlName="state">
+              <option *ngFor="let state of states" [ngValue]="state.abbreviation">
+                {{ state.name }}
+              </option>
+            </select>
+            <span class="invalid-feedback alert-danger">
+              <span *ngIf="
+                  preferenceForm.get('streetAddress.state').errors?.required
+                ">
+                State is required.
+              </span>
+            </span>
+          </div>
+          <div class="col-md-2">
+            <input class="form-control" id="zipId" type="number" placeholder="Zip Code" formControlName="zip" />
+            <span class="invalid-feedback alert-danger">
+              <span *ngIf="preferenceForm.get('streetAddress.zip').errors?.required">
+                Zip is required.
+              </span>
+              <span *ngIf="
+                  preferenceForm.get('streetAddress.zip').errors?.maxlength
+                ">
+                Up to 10 characters.
+              </span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mailing Address Box -->
+      <div formGroupName="mailingAddress">
+        <h2>Mailing Address</h2>
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label" for="street1Id">Street Address 1</label>
+          <div class="col-md-8">
+            <input class="form-control" id="street1Id" type="text" placeholder="Street address"
+              formControlName="street1" />
+            <span class="invalid-feedback alert-danger">
+              <span *ngIf="
+                  preferenceForm.get('mailingAddress.street1').errors?.required
+                ">
+                Street is required.
+              </span>
+              <span *ngIf="
+                  preferenceForm.get('mailingAddress.street1').errors?.maxlength
+                ">
+                Up to 30 characters.
+              </span>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label" for="street2Id">Street Address 2</label>
+          <div class="col-md-8">
+            <input class="form-control" id="'street2Id" type="text" placeholder="Street address (second line)"
+              formControlName="street2" />
+            <span class="invalid-feedback alert-danger">
+              <span *ngIf="
+                  preferenceForm.get('mailingAddress.street2').errors?.maxlength
+                ">
+                Up to 30 characters.
+              </span>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label" attr.for="cityId">City, State, Zip Code</label>
+          <div class="col-md-3">
+            <input class="form-control" id="cityId" type="text" placeholder="City" formControlName="city" />
+            <span class="invalid-feedback alert-danger">
+              <span *ngIf="
+                  preferenceForm.get('mailingAddress.city').errors?.required
+                ">
+                City is required.
+              </span>
+              <span *ngIf="
+                  preferenceForm.get('mailingAddress.city').errors?.maxlength
+                ">
+                Up to 22 characters.
+              </span>
+            </span>
+          </div>
+          <div class="col-md-3">
+            <select class="form-control" id="stateId" formControlName="state">
+              <option *ngFor="let state of states" [ngValue]="state.abbreviation">
+                {{ state.name }}
+              </option>
+            </select>
+            <span class="invalid-feedback alert-danger">
+              <span *ngIf="
+                  preferenceForm.get('mailingAddress.state').errors?.required
+                ">
+                State is required.
+              </span>
+            </span>
+          </div>
+          <div class="col-md-2">
+            <input class="form-control" id="zipId" type="number" placeholder="Zip Code" formControlName="zip" />
+            <span class="invalid-feedback alert-danger">
+              <span *ngIf="
+                  preferenceForm.get('mailingAddress.zip').errors?.required
+                ">
+                Zip is required.
+              </span>
+              <span *ngIf="
+                  preferenceForm.get('mailingAddress.zip').errors?.maxlength
+                ">
+                Up to 10 characters.
+              </span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Information Box -->
+      <div formGroupName="contactInformation">
+        <h2>Contact Information</h2>
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label" for="title">Title</label>
+          <div class="col-md-8">
+            <input class="form-control" id="title" type="text" placeholder="Title" formControlName="title" />
+          </div>
+        </div>
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label" for="firstName">First Name</label>
+          <div class="col-md-8">
+            <input class="form-control" id="firstName" type="text" placeholder="First Name"
+              formControlName="firstName" />
+            <span class="invalid-feedback alert-danger">
+              <span *ngIf="
+                  preferenceForm.get('contactInformation.firstName').errors
+                    ?.required
+                ">
+                First name is required.
+              </span>
+              <span *ngIf="
+                  preferenceForm.get('contactInformation.firstName').errors
+                    ?.maxlength
+                ">
+                Up to 20 characters.
+              </span>
+            </span>
+          </div>
+        </div>
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label" for="middleName">Middle</label>
+          <div class="col-md-8">
+            <input class="form-control" id="middleName" type="text" placeholder="Middle Name"
+              formControlName="middleName" />
+            <span class="invalid-feedback alert-danger">
+              <span *ngIf="
+                  preferenceForm.get('contactInformation.middleName').errors
+                    ?.maxlength
+                ">
+                Up to 20 characters.
+              </span>
+            </span>
+          </div>
+        </div>
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label" for="lastName">Last</label>
+          <div class="col-md-8">
+            <input class="form-control" id="lastName" type="text" placeholder="Last Name" formControlName="lastName" />
+            <span class="invalid-feedback alert-danger">
+              <span *ngIf="
+                  preferenceForm.get('contactInformation.lastName').errors
+                    ?.required
+                ">
+                Last name is required.
+              </span>
+              <span *ngIf="
+                  preferenceForm.get('contactInformation.lastName').errors
+                    ?.maxlength
+                ">
+                Up to 10 characters.
+              </span>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group row mb-2">
+          <label for="phoneId" class="col-md-2 col-form-label">Phone</label>
+          <div class="col-md-4">
+            <input type="tel" class="form-control" placeholder="Phone" id="phoneId" formControlName="phoneNumber" [value]="preferenceForm.get('contactInformation.phoneNumber').value | phoneNumber:'US'" />
+            <span class="invalid-feedback alert-danger">
+              <span *ngIf="
+                  preferenceForm.get('contactInformation.phoneNumber').errors
+                    ?.required
+                ">
+                Phone number is required.
+              </span>
+              <span *ngIf="
+                  preferenceForm.get('contactInformation.phoneNumber').errors
+                    ?.pattern
+                ">
+                Please enter a valid phone number.
+              </span>
+            </span>
+          </div>
+          <div class="col-md-4 row">
+            <label for="col-md-2 col-form-label">Phone Extension</label>
+            <input type="tel" class="form-control col-md-1" placeholder="Ext" id="phoneExtId"
+              formControlName="phoneExtension" />
+            <span class="invalid-feedback alert-danger">
+              <span *ngIf="
+                  preferenceForm.get('contactInformation.phoneExtension').errors
+                    ?.pattern
+                ">
+                Please enter a valid extension number.
+              </span>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group row mb-2">
+          <label for="phoneId" class="col-md-2 col-form-label">Fax</label>
+          <div class="col-md-8">
+            <input type="tel" class="form-control" placeholder="fax" id="faxId" formControlName="fax" [value]="preferenceForm.get('contactInformation.fax').value | phoneNumber:'US'">
+            <span class="invalid-feedback alert-danger">
+              <span *ngIf="
+                  preferenceForm.get('contactInformation.fax').errors?.pattern
+                ">
+                Please enter a valid fax number.
+              </span>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label" for="emailId">Email</label>
+          <div class="col-md-8">
+            <input class="form-control" id="emailId" type="email" placeholder="Email (required)"
+              formControlName="emailAddress" />
+            <span class="invalid-feedback alert-danger">
+              <span *ngIf="
+                  preferenceForm.get('contactInformation.emailAddress').errors
+                    ?.required
+                ">
+                Email is required.
+              </span>
+              <span *ngIf="
+                  preferenceForm.get('contactInformation.emailAddress').errors
+                    ?.maxlength
+                ">
+                Email can only be 90 characters.
+              </span>
+              <span *ngIf="
+                  preferenceForm.get('contactInformation.emailAddress').errors
+                    ?.pattern
+                ">
+                Please enter a valid email address.
+              </span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <div class="offset-md-2 col-md-4">
+          <button class="btn btn-primary mr-3" type="submit">
+            Submit Changes
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="alert alert-danger" *ngIf="errorMessage">{{ errorMessage }}</div>
+  <div class="alert alert-success" *ngIf="successMessage">{{ successMessage }}</div>
+</div>

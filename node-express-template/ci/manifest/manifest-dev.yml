@@ -1,0 +1,6 @@
+---
+applications:
+- name: <CHANGE_ME>
+  buildpacks: 
+  - nodejs_buildpack
+  stack: cflinuxfs3

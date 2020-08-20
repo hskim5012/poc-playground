@@ -1,0 +1,18 @@
+mat-toolbar {
+  height: 35px;
+}
+
+img {
+  padding-left: 15px;
+  padding-top: 15px;
+}
+
+.page-container {
+  margin: 10px;
+  border: 1px solid #005a8c;
+  padding: 0px;
+}
+
+.divider-toolbar {
+  height: 25px;
+}

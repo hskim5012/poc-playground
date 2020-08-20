@@ -1,0 +1,157 @@
+<form #remitform="ngForm">
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-xs-12 col-md-4 form-group">
+          <label for="level">Select Level</label>
+          <select
+            id="level"
+            name="level"
+            [(ngModel)]="remitValues.level"
+            (ngModelChange)="onChangeLevel($event)"
+            class="form-control"
+          >
+          <option value="null">Select Level</option>
+          <option value="Account Level">Account Level</option>
+          <option value="Group Level">Group Level</option>
+
+            <!-- <option disabled [ngValue]="null">Select Level</option>
+            <option *ngFor="let lvl of levels" [ngValue]="lvl">
+              {{ lvl.name }}
+            </option> -->
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12 col-md-4 form-group">
+          <label for="ncpdp">ncpdp/group :</label>
+          <input
+            id="ncpdp"
+            name="ncpdp"
+            type="text"
+            [(ngModel)]="remitValues.ncpdp"
+            class="form-control"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12 col-md-4 form-group">
+          <label for="asOfDate">As Of Date</label>
+          <input
+            id="asOfDate"
+            name="asOfDate"
+            type="date"
+            [(ngModel)]="remitValues.asOfDate"
+            class="form-control"
+          />
+        </div>
+      </div>
+
+      <br />
+      <br />
+      <div class="row">
+        <div class="col-xs-6 col-md-1 form-group">
+          <label for="linesPerPage">Lines per Page</label>
+          <input
+            id="linesPerPage"
+            name="linesPerPage"
+            type="number"
+            [(ngModel)]="remitValues.linesPerPage"
+            placeholder="5"
+            class="form-control"
+          />
+        </div>
+      </div>
+      <hr />
+
+      <div class="row">
+        <div class="col-xs-12 col-md-4 form-group">
+          <label for="remitDateFrom">Remittance Date (From)</label>
+          <input
+            id="remitDateFrom"
+            name="remitDateFrom"
+            type="date"
+            value="yyyymmdd"
+            [(ngModel)]="remitValues.remitDateFrom"
+            class="form-control"
+          />
+        </div>
+        <div class="col-xs-12 col-md-4 form-group">
+          <label for="remitDateTo">Remittance Date (To)</label>
+          <input
+            id="remitDateTo"
+            name="remitDateTo"
+            type="date"
+            value="yyyymmdd"
+            [(ngModel)]="remitValues.remitDateTo"
+            class="form-control"
+          />
+        </div>
+      </div>
+    </div>
+    <div>
+      <button type="button" class="btn btn-primary" (click)="remitRequest()">
+        Submit
+      </button>
+    </div>
+  </div>
+  <hr />
+  <div class="panel panel-primary" *ngIf="results$ | async as results">
+    <div class="panel-heading">
+      <h3 class="panel-title">Remittances</h3>
+    </div>
+    <div class="panel-body">
+      <div class="form-group">
+        <table>
+          <thead>
+            <tr>
+              <th>Remittance Number</th>
+              <th>Payer Name</th>
+              <th>Remittance Date</th>
+              <th>Payment Date</th>
+              <th>Remittance Amount</th>
+              <th>Remit Image</th>
+              <th>Payment Match</th>
+              <th>Payment DocumentType</th>
+              <th>Claim Match</th>
+              <th>No Claim Match</th>
+              <th>Excluded Amount</th>
+              <th>Adjust</th>
+              <th>Worked</th>
+              <th>Exclude Item</th>
+              <th>Exclude Effective Date</th>
+              <th>Note</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="rowOdd" *ngFor="let result of results.data.remits">
+              <td>{{ result.summarySequence }}</td>
+              <td>{{ result.carrierName }}</td>
+              <td>{{ result.transactionDate }}</td>
+              <td>{{ result.payerDate }}</td>
+              <td>{{ result.transactionAmount }}</td>
+              <td>{{ result.documentControlNumber }}</td>
+              <td>{{ result.transactionAmount }}</td>
+              <td>{{ result.summaryDocumentType }}</td>
+              <td>{{ result.associatedAmount }}</td>
+              <td>{{ result.unassociatedAmount }}</td>
+              <td>{{ result.excludedAmount }}</td>
+              <td>{{ result.adjustmentAmount }}</td>
+              <td>
+                <input
+                  type="checkbox"
+                  value="result.workedTransaction ? 1 : 0"
+                />
+              </td>
+              <td>
+                <input type="checkbox" value="result.excludeDate ? 1 : 0" />
+              </td>
+              <td>{{ result.effectiveChangeRequestDate }}</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</form>

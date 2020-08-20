@@ -1,0 +1,187 @@
+<div class="content">
+  <h3>External Funds Transfer Account Setup</h3>
+
+  <ul *ngIf="validationErrors.length > 0">
+    <li *ngFor="let error of validationErrors">
+      <span class="error"> {{ error }}</span>
+    </li>
+  </ul>
+
+  <table class="noticeBox listFrame">
+    <tbody>
+      <tr>
+        <td class="left">
+          <span style="font-weight: bold"
+            >&nbsp; Setting up an External Account for transferring funds.</span
+          >
+          <br />
+          <ol>
+            <li>Enter the transfer account info below.</li>
+            <li>
+              The account setup information is verified through the receiving
+              financial institution. This may take up to five business days.
+            </li>
+            <li>
+              Once the waiting period has lapsed, transfers may be initiated on
+              the newly established account.
+            </li>
+            <li>
+              If for any reason, the receiving financial institution rejects a
+              submitted transfer, funds will be credited back to the operating
+              account.
+            </li>
+            <li>
+              After the transfer account has been verified you can set up a
+              recurring transfer to automatically sweep funds.
+            </li>
+          </ol>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <form #createAccountForm="ngForm" (ngSubmit)="createAccount()">
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <fieldset>
+              <legend>
+                <span class="legendText">Create a Transfer Account</span>
+              </legend>
+              <table>
+                <tbody>
+                  <tr>
+                    <td>
+                      <label>Name of Financial Insitution:</label>
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        maxlength="45"
+                        size="30"
+                        [(ngModel)]="newAccount.institution"
+                        [ngModelOptions]="{ standalone: true }"
+                        required
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label>*ACH Routing Number:</label>
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        minlength="9"
+                        maxlength="9"
+                        size="9"
+                        [(ngModel)]="newAccount.routingNumber"
+                        [ngModelOptions]="{ standalone: true }"
+                        required
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label>Account Number:</label>
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        maxlength="17"
+                        [(ngModel)]="newAccount.accountNumber"
+                        [ngModelOptions]="{ standalone: true }"
+                        required
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label>Account Type:</label>
+                    </td>
+                    <td>
+                      <label>
+                        <input
+                          type="radio"
+                          value="22"
+                          name="accountType"
+                          [(ngModel)]="newAccount.type"
+                          [ngModelOptions]="{ standalone: true }"
+                          required
+                        />
+                        &nbsp;Checking
+                      </label>
+                      <label>
+                        <input
+                          type="radio"
+                          value="23"
+                          name="accountType"
+                          [(ngModel)]="newAccount.type"
+                          [ngModelOptions]="{ standalone: true }"
+                          required
+                        />
+                        &nbsp;Savings
+                      </label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label>Account Name:</label>
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        maxlength="45"
+                        size="30"
+                        [(ngModel)]="newAccount.name"
+                        [ngModelOptions]="{ standalone: true }"
+                        required
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2">
+                      <span>
+                        <input type="submit" value="Submit" />
+                        &nbsp; * ACH Routing number may be obtained through your
+                        bank
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </fieldset>
+          </td>
+          <td>
+            <img src="../../../../../assets/sample_check.gif" />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+  <h3>Existing Funds Transfer</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Account Name</th>
+        <th>Account Type</th>
+        <th>Account Number</th>
+        <th>Status</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="rowOdd" *ngFor="let account of accounts">
+        <td>{{ account.accountName }}</td>
+        <td>{{ account.accountType | accountTypeByCode }}</td>
+        <td>{{ account.accountNumber }}</td>
+        <td>{{ account.status }}</td>
+        <td>
+          <form #deleteAccountForm="ngForm" (ngSubmit)="deleteAccount(account)">
+            <input type="submit" value="Delete" />
+          </form>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,57 @@
+---
+resources:
+- name: source-code
+  type: git
+  source:
+    uri: <CHANGE_ME>
+    branch: master
+    username: ((bitbucket-user))
+    password: ((bitbucket-pass))
+- name: cloud-foundry
+  type: cf
+  source:
+    api: https://api.sys.dev-west.paas.mckesson.com
+    username: ((dev-pcf-user))
+    password: ((dev-pcf-pass))
+    organization: Pharma-AccessHealth
+    space: dev-pp
+    skip_cert_check: true
+
+jobs:
+- name: build-and-deploy
+  public: true
+  plan:
+  - get: source-code
+  - task: install-build
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source: {repository: registry.mckesson.com/er2niot/node, tag: latest}
+      inputs:
+      - name: source-code
+      outputs:
+      - name: cloud-foundry
+      run:
+        path: /bin/bash
+        args:
+        - -exc
+        - |
+          cd source-code
+          npm install
+          npm run build
+          npm test
+          #copy individual files
+          cp package.json ../cloud-foundry
+          #recursively copy folders
+          cp -R ci ../cloud-foundry
+          cp -R node_modules ../cloud-foundry
+          cp -R dist ../cloud-foundry
+      params:
+        <ADD_ENV_VARS_OR_REMOVE>
+  - put: cloud-foundry
+    params:
+      manifest: cloud-foundry/ci/manifest/manifest-dev.yml
+      path: cloud-foundry
+      environment_variables:
+        <ADD_ENV_VARS_OR_REMOVE>

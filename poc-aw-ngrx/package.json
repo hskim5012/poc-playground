@@ -1,0 +1,20 @@
+{
+  "name": "atlasweb",
+  "version": "1.1.2",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "cd ./Express && npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://bitbucket.mckesson.com:8443/scm/phrahopst/atlasweb.git"
+  },
+  "engines": {
+    "node": "^8.11.4"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {}
+}
